@@ -5,7 +5,7 @@ $(document).ready(function() {
   
            var wordBank = ["ANIMAL", "ADDRESS", "TORTUGA"];
   
-           //random word is set
+           //random word is generated.
            var wordGoal = wordBank[Math.floor(Math.random() * wordBank.length)];
   
           var underlines = [];
@@ -15,7 +15,9 @@ $(document).ready(function() {
           document.getElementById('guesses').innerHTML = "Guesses: " + guessesCounter;
           
   
-           //  For loop that makes underlines in an array matching wordGoals length
+   //  For loop that makes underlines in an array matching wordGoals length. 
+
+  //I was trying to make a place holder. I wanted to print the array in html, then replace the objects with the new guesses at the index of the correct word (wordGoal). I wasn't able to get it to work.
              
   
     function printUnderlines () {
@@ -32,9 +34,10 @@ $(document).ready(function() {
   
       printUnderlines ()
   
-      // console.log(underlines);
       
-  
+      
+  //this makes the letter buttons. User can click them to guess. Based on the fridge activity in class.
+
         function letterButtons () {
           for (var i = 0; i < letters.length; i++){
           var letterBtn = $("<button>").addClass("letter-button letter letter-button-color");
@@ -47,6 +50,8 @@ $(document).ready(function() {
   
         letterButtons();
   
+
+  //on click event for guessing. Gets the letter from the button clicked and compares it to index of guess.
   
           $(".letter-button").on("click", guesser);
   
@@ -58,6 +63,7 @@ $(document).ready(function() {
                   var rightGuess = $("<li>");
                           rightGuess.addClass("letter");
                           rightGuess.text($(this).attr("data-letter"));
+
                       
               }   
               else {
@@ -65,7 +71,7 @@ $(document).ready(function() {
                    wrongGuess.addClass("letter");
                   wrongGuess.text($(this).attr("data-letter"));    
                    $("#wrong").append(wrongGuess);
-                   $("guessesCounter")++;
+                   $(guessesCounter) ++;
               }
           }
   
