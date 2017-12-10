@@ -44,7 +44,7 @@ $(document).ready(function(){
 //make letter buttons for guessing.
   function letterButtons () {
         for (var i = 0; i < letters.length; i++){
-        var letterBtn = $("<button>").addClass("btn btn-primary letter");
+        var letterBtn = $("<button>").addClass("btn btn-danger btn-primary letter");
           letterBtn.attr("letter-data", letters[i]);
           letterBtn.text(letters[i]);
           $("#buttons" ).append(letterBtn);
@@ -53,7 +53,7 @@ $(document).ready(function(){
       };
 
 
-  //  I'm sure there was an easier way. Guesser takes the attribute of the button to find the letter guess.
+  //   Guesser takes the attribute of the button to find the letter guess.
 
   function guesser(){
       guessedLetter = $(this).attr("letter-data");
@@ -93,7 +93,7 @@ $(document).ready(function(){
       guessCount = 20;
       $("#wrong").empty();
       yourWord.splice(0,yourWord.length);
-      correctGuesses.splice(0,yourWord.length);
+      correctGuesses.splice(0,correctGuesses.length);
       $("#guessBox").empty();
       render();
      
