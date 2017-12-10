@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman</title>
+
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <style type="text/css">
+    
+    .container {
+        margin-left: 70px;
+        margin-right: 70px
+    }
+    .letter{
+        margin: 5px;
+        font-size: 20px;
+    }
+  
+  #guessbox{
+      padding: 50px;
+      
+  }
+    </style>
+</head>
+<body>
+
+<!-- Jumbotron for Title -->
+<div class="jumbotron">
+    <h1 class="text-center">jQuery Hangman</h1>
+    <h3 class="text-center">My Hangman game made with Javascript/jQuery!</h3>
+    <h3 class="text-center">By Jeff Cameron</h3>
+    
+</div>
+
+<div class="container">
+
+    <div class="row">
+            <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Your Word</h3>
+                        </div>
+        
+                        <div class="panel-body" >
+                               <h1 id ="guessBox"></h1>
+                           
+                        </div>
+                    </div>
+         </div>
+        <!-- Calculator Panel -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Pick a Letter</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div id="buttons">
+
+                    </div>
+             
+                    <br><br>
+                    <button id="button-clear" class="btn btn-default clear" value="clear"><h1>Reset</h1></button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="col-lg-6">
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="guessCount">Guesses Remaing: </h3>
+                </div>
+                <div class="panel-body">
+                    <h1 id="wrong"></h1>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    
+    //GLOBAL
+    var letters = ["A", "B", "C", "D", "E", "F", "G", 
+    "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
+    "S", "T", "U", "V", "W", "X", "Y", "Z", "_"];
+
+    var wordBank = ["JUMP", "OPEN", "CLOSE", "CRAZY", "TRAIN"];
+
+    var wordGoal = wordBank[Math.floor(Math.random() * wordBank.length)];
+
+    var yourWord = [];
+   
+    correct = true;
+    var guessCount = 15;
+    var letterInd;
+    var letterGuess;
+    
+    //CALLING 
+    letterButtons();
+    printUnderlines();
+    $(".letter").on("click", guesser);
+    $(".clear").on("click", resetter);
+
+
+    //FUNCTIONS
+    function render(){
+        $("#guessBox").text(yourWord);
+        $("#guessCount").text("Guesses " + "Left: " + guessCount);
+       }
+
+
+    //make underlines
+
+    function printUnderlines () {
+      for (var i = 0; i < wordGoal.length; i++){
+          var underline = "_ ";
+         yourWord.push(underline);
+          }
+          render();
+    };
+    
+//make letter buttons for guessing.
+    function letterButtons () {
+          for (var i = 0; i < letters.length; i++){
+          var letterBtn = $("<button>").addClass("btn btn-primary letter");
+            letterBtn.attr("letter-data", letters[i]);
+            letterBtn.text(letters[i]);
+            $("#buttons" ).append(letterBtn);
+          }
+        
+        };
+
+
+    //  I'm sure there was an easier way. Guesser takes the attribute of the button to find the letter guess.
+
+    function guesser(){
+        guessedLetter = $(this).attr("letter-data");
+        console.log(guessedLetter);
+
+        if (wordGoal.indexOf(guessedLetter) > -1){
+        letterInd = (wordGoal.indexOf(guessedLetter));
+        yourWord.splice(letterInd, 1, guessedLetter);
+        render()
+             }
+
+        else{
+        var wrongGuess = $("<li>");
+                wrongGuess.addClass("letter");
+                wrongGuess.text($(this).attr("letter-data"));    
+                $("#wrong").append(wrongGuess);
+                guessCount--;
+            
+            render();
+        }
+        
+        };
+
+//reset everything on clear button. could not get it to pick a new word until I made a newWord Variable.
+
+        function resetter() {
+        guessCount = 15;
+        $("#wrong").empty();
+        yourWord.splice(0,yourWord.length);
+        $("#guessBox").empty();
+        render();
+       
+       //choose a new random wordbank word 
+        var newWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+        wordGoal = newWord;
+    
+        //reprint the underlines in guessbox
+        printUnderlines();
+       render();
+        }
+   
+
+});
+
+</script>
+
+</body>
+</html>
